@@ -4,7 +4,7 @@ import { SettingsPanel } from './core/SettingsPanel';
 import { useAppState } from '../hooks/useAppState';
 import { useAuth } from '../hooks/useAuth';
 import { ChatService } from '../services/chatService';
-import { useAppContext } from '../contexts/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import styles from './AgentPreview.module.css';
 
 interface AgentPreviewProps {
@@ -15,7 +15,7 @@ interface AgentPreviewProps {
   starterPrompts?: string[];
 }
 
-export const AgentPreview: React.FC<AgentPreviewProps> = ({ agentId: _agentId, agentName, agentDescription, agentLogo, starterPrompts }) => {
+export const AgentPreview: React.FC<AgentPreviewProps> = ({ agentName, agentDescription, agentLogo, starterPrompts }) => {
   const { chat } = useAppState();
   const { dispatch } = useAppContext();
   const { getAccessToken } = useAuth();
