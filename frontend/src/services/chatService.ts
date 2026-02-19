@@ -44,6 +44,7 @@ export class ChatService {
   private currentStreamAbort?: AbortController;
   // Flag indicating an intentional user cancellation of the active stream.
   private streamCancelled = false;
+  private agentId: string | null = null;
 
   constructor(
     apiUrl: string,
@@ -53,6 +54,14 @@ export class ChatService {
     this.apiUrl = apiUrl;
     this.getAccessToken = getAccessToken;
     this.dispatch = dispatch;
+  }
+
+  /**
+   * Set the agent ID to use for subsequent requests.
+   * Pass null to revert to the default agent.
+   */
+  setAgentId(id: string | null): void {
+    this.agentId = id;
   }
 
   /**
@@ -138,6 +147,7 @@ export class ChatService {
       conversationId,
       imageDataUris: imageDataUris.length > 0 ? imageDataUris : undefined,
       fileDataUris: fileDataUris.length > 0 ? fileDataUris : undefined,
+      agentId: this.agentId || undefined,
     };
   }
 
@@ -466,6 +476,7 @@ export class ChatService {
           approvalRequestId,
           approved,
         },
+        agentId: this.agentId || undefined,
       };
 
       const response = await retryWithBackoff(
